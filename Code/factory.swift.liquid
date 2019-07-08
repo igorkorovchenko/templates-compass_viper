@@ -1,0 +1,44 @@
+//
+//  {{ prefix }}{{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import UIKit
+
+/ MARK: Module's constants
+let k{{ module_info.name }}StroryboardId = "{{ module_info.name }}"
+let kV{{ module_info.name }}iewControllerId = "{{ module_info.name }}ViewController"
+
+
+class {{ module_info.name }}Factory: ModuleFactoryProtocol {
+    
+    private static let _shared = {{ module_info.name }}Factory()
+    
+    static var shared: {{ module_info.name }}Factory {
+        return _shared
+    }
+    
+    // MARK: ModuleFactoryProtocol
+    var moduleURN: String {
+        return "{{ module_info.name }}"
+    }
+    
+    func createModule(arguments: NamedValuesType, completion: ModuleCompletionHandler?) -> UIViewController {
+        NSLog("Opening module '\(k{{ module_info.name }}StroryboardId)' with controller '\(k{{ module_info.name }}ViewControllerId)'")
+        
+        let storyboard = UIStoryboard(name: k{{ module_info.name }}StroryboardId, bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: k{{ module_info.name }}ViewControllerId)
+        
+        let moduleInput = controller as? ModuleInputProtocol
+        if let moduleInput = moduleInput {
+            moduleInput.setupInitialState(withArguments: arguments, completion: completion)
+        } else {
+            fatalError("\(k{{ module_info.name }}ViewControllerId) moduleInput == nil")
+        }
+        
+        return controller
+    }
+}
