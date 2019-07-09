@@ -51,3 +51,8 @@ test_files:
 
 # Router tests
 - {name: Router/RouterTests.swift, path: Tests/Router/router_tests.swift.liquid}
+
+
+# Template dependencies
+dependencies:
+- Compass
